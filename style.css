@@ -1,0 +1,1364 @@
+/* ==========================================================================
+   IPL FANTASY AUCTION 2027 — style.css
+   Design: near-black base, gold accents, Bebas Neue / Inter / JetBrains Mono
+   NO glassmorphism. NO gradient blobs. NO blue/purple gradients.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. GOOGLE FONTS IMPORT
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ==========================================================================
+   2. CSS CUSTOM PROPERTIES (Design Tokens)
+   ========================================================================== */
+:root {
+  /* --- Colors --- */
+  --clr-bg:          #0a0a0a;
+  --clr-bg-alt:      #111111;
+  --clr-bg-raised:   #161616;
+  --clr-surface:     #1a1a1a;
+  --clr-border:      #2a2a2a;
+
+  --clr-gold:        #DAA520;
+  --clr-gold-light:  #f0c040;
+  --clr-gold-dim:    #8a6a0a;
+
+  --clr-white:       #ffffff;
+  --clr-off-white:   #e8e8e8;
+  --clr-muted:       #666666;
+  --clr-muted-light: #999999;
+
+  --clr-red:         #EF3340;
+  --clr-red-dark:    #9e1a22;
+
+  /* --- Team color placeholders (overridden inline per section) --- */
+  --team-primary:    #DAA520;
+  --team-secondary:  #1C1C1C;
+
+  /* --- Typography --- */
+  --font-display:    'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body:       'Inter', system-ui, sans-serif;
+  --font-mono:       'JetBrains Mono', 'Courier New', monospace;
+
+  --fs-xs:    clamp(0.65rem, 1.5vw, 0.75rem);
+  --fs-sm:    clamp(0.75rem, 2vw,   0.875rem);
+  --fs-base:  clamp(0.875rem, 2.5vw, 1rem);
+  --fs-md:    clamp(1rem,     2.5vw, 1.125rem);
+  --fs-lg:    clamp(1.125rem, 3vw,   1.5rem);
+  --fs-xl:    clamp(1.5rem,   4vw,   2rem);
+  --fs-2xl:   clamp(2rem,     5vw,   3rem);
+  --fs-3xl:   clamp(2.5rem,   6vw,   4rem);
+  --fs-hero:  clamp(4rem,     12vw,  10rem);
+
+  /* --- Spacing --- */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+
+  /* --- Borders & Radii --- */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-pill: 999px;
+
+  /* --- Transitions --- */
+  --trans-fast:   0.15s ease;
+  --trans-base:   0.3s ease;
+  --trans-slow:   0.6s ease;
+  --trans-flip:   0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Z-index layers --- */
+  --z-below:      -1;
+  --z-base:        0;
+  --z-raised:     10;
+  --z-overlay:   100;
+  --z-modal:     200;
+  --z-cursor:    999;
+}
+
+/* ==========================================================================
+   3. RESET & BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-off-white);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none; /* hide default cursor — custom cursor takes over */
+  position: relative;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: none;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   4. CUSTOM SCROLLBAR
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--clr-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--clr-gold-dim);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-gold);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-gold-dim) var(--clr-bg);
+}
+
+/* ==========================================================================
+   5. GRAIN / NOISE OVERLAY (body::before)
+   ========================================================================== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  opacity: 0.05;
+  /* SVG feTurbulence noise grain */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+}
+
+/* ==========================================================================
+   6. CUSTOM CURSOR
+   ========================================================================== */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--clr-gold);
+  box-shadow:
+    0 0 6px 2px var(--clr-gold),
+    0 0 20px 4px color-mix(in srgb, var(--clr-gold) 40%, transparent);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition:
+    width  var(--trans-fast),
+    height var(--trans-fast),
+    opacity var(--trans-fast);
+  will-change: transform;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--clr-gold) 60%, transparent);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.12s ease,
+    width  0.2s ease,
+    height 0.2s ease,
+    opacity 0.2s ease;
+  will-change: transform;
+}
+
+/* Cursor states */
+body:has(a:hover) .cursor-dot,
+body:has(button:hover) .cursor-dot,
+body:has(.player-card:hover) .cursor-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--clr-gold-light);
+}
+
+body:has(a:hover) .cursor-ring,
+body:has(button:hover) .cursor-ring,
+body:has(.player-card:hover) .cursor-ring {
+  width: 48px;
+  height: 48px;
+  border-color: var(--clr-gold);
+}
+
+/* ==========================================================================
+   7. UTILITY CLASSES
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: var(--sp-6);
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--clr-gold);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   8. HERO SECTION (#hero)
+   ========================================================================== */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  padding: var(--sp-24) var(--sp-6) var(--sp-16);
+}
+
+/* Stadium floodlight cones — subtle radial conic gradients */
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-below);
+  pointer-events: none;
+  background:
+    /* left top floodlight cone */
+    conic-gradient(
+      from 115deg at -5% -10%,
+      transparent 0deg,
+      color-mix(in srgb, #ffffff 4%, transparent) 10deg,
+      transparent 22deg
+    ),
+    /* right top floodlight cone */
+    conic-gradient(
+      from 245deg at 105% -10%,
+      transparent 0deg,
+      color-mix(in srgb, #ffffff 4%, transparent) 10deg,
+      transparent 22deg
+    ),
+    /* center top subtle wash */
+    conic-gradient(
+      from 170deg at 50% -15%,
+      transparent 0deg,
+      color-mix(in srgb, #c8a000 3%, transparent) 14deg,
+      transparent 28deg
+    ),
+    /* base dark */
+    radial-gradient(ellipse 100% 80% at 50% 100%, #0d0d0d 60%, #0a0a0a 100%);
+}
+
+/* Inner content wrapper */
+.hero-inner {
+  position: relative;
+  z-index: var(--z-raised);
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+}
+
+/* IPL Badge / kicker */
+.hero-kicker {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--clr-muted-light);
+  margin-bottom: var(--sp-4);
+}
+
+/* Hero title */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  color: var(--clr-white);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-8);
+}
+
+/* The word FANTASY gets an outlined/stroke treatment */
+.hero-title .word-fantasy {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--clr-gold);
+  text-stroke: 2px var(--clr-gold);
+  paint-order: stroke fill;
+  /* Subtle glow */
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--clr-gold) 35%, transparent));
+}
+
+/* RETENTION PHASE LIVE badge */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  background: color-mix(in srgb, var(--clr-red) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--clr-red) 50%, transparent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-red);
+  margin-bottom: var(--sp-6);
+}
+
+/* Pulsing red dot */
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--clr-red);
+  animation: pulse-dot 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--clr-red) 60%, transparent);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--clr-red) 0%, transparent);
+  }
+}
+
+/* Hero subtitle / tagline */
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  color: var(--clr-muted-light);
+  max-width: 480px;
+  margin-bottom: var(--sp-12);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: var(--sp-10);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  z-index: var(--z-raised);
+}
+
+.scroll-cue__text {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.scroll-cue__chevron {
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid var(--clr-gold);
+  border-bottom: 2px solid var(--clr-gold);
+  transform: rotate(45deg);
+  animation: bounce-down 1.8s ease-in-out infinite;
+}
+
+.scroll-cue__chevron:nth-child(3) {
+  margin-top: -12px;
+  opacity: 0.5;
+  animation-delay: 0.2s;
+}
+
+@keyframes bounce-down {
+  0%, 100% { transform: rotate(45deg) translateY(0);   opacity: 1;   }
+  50%       { transform: rotate(45deg) translateY(6px); opacity: 0.5; }
+}
+
+/* ==========================================================================
+   9. MARQUEE TICKER STRIP
+   ========================================================================== */
+.marquee-strip {
+  width: 100%;
+  background: var(--clr-bg-alt);
+  border-top:    1px solid color-mix(in srgb, var(--clr-gold) 20%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--clr-gold) 20%, transparent);
+  padding-block: var(--sp-3);
+  overflow: hidden;
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  padding-right: var(--sp-6);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--clr-gold);
+  text-transform: uppercase;
+}
+
+.marquee-content .sep {
+  color: var(--clr-gold-dim);
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   10. TEAM SECTIONS (.team-section)
+   ========================================================================== */
+.team-section {
+  position: relative;
+  min-height: 100vh;
+  padding-block: var(--sp-20) var(--sp-16);
+  padding-inline: var(--sp-6);
+  overflow: hidden;
+  /* left border accent driven by team primary color */
+  border-left: 4px solid var(--team-primary);
+}
+
+/* Slanted top edge */
+.team-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: var(--z-below);
+  background: color-mix(in srgb, var(--team-primary) 8%, transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
+}
+
+/* Slanted accent diagonal background line */
+.team-section::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 55%;
+  height: 130%;
+  z-index: var(--z-below);
+  background: color-mix(in srgb, var(--team-primary) 4%, transparent);
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+  pointer-events: none;
+}
+
+/* Team section inner container */
+.team-inner {
+  position: relative;
+  z-index: var(--z-raised);
+  max-width: 1400px;
+  margin-inline: auto;
+}
+
+/* Team header row */
+.team-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-10);
+}
+
+/* Giant team code — outlined / stroked */
+.team-code {
+  font-family: var(--font-display);
+  font-size: clamp(100px, 16vw, 180px);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--team-primary);
+  text-stroke: 2px var(--team-primary);
+  text-shadow:
+    0 0 40px color-mix(in srgb, var(--team-primary) 25%, transparent),
+    0 0 80px color-mix(in srgb, var(--team-primary) 12%, transparent);
+  user-select: none;
+  line-height: 1;
+}
+
+/* Team info block */
+.team-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.team-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.04em;
+  color: var(--clr-white);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+}
+
+.team-owners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+/* Owner badge — pill with team-secondary background */
+.owner-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sp-1) var(--sp-4);
+  background: var(--team-secondary);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-bg);
+}
+
+/* ==========================================================================
+   11. PLAYER CARD GRID
+   ========================================================================== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-10);
+}
+
+/* --- Card wrapper (3D perspective container) --- */
+.card-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  /* fixed aspect ratio replaced by explicit heights below */
+}
+
+/* --- Card inner (the flipping element) --- */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  transform-style: preserve-3d;
+  transition: transform var(--trans-flip);
+  will-change: transform;
+}
+
+/* Triggered by JS/GSAP */
+.card-wrapper.is-revealed .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* --- Shared face styles --- */
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   12. PLAYER CARD — FRONT FACE (.card-front)
+   ========================================================================== */
+.card-front {
+  background: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Photo area */
+.card-photo {
+  position: relative;
+  height: 160px;
+  flex-shrink: 0;
+  background: var(--clr-surface);
+  overflow: hidden;
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Fallback / placeholder icon */
+.card-photo__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--clr-border);
+}
+
+/* Gradient bar at bottom of photo — team primary color */
+.card-photo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--team-primary) 90%, transparent),
+    transparent
+  );
+}
+
+/* Role badge — top-right corner */
+.card-role {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  padding: 1px var(--sp-2);
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--clr-gold);
+  line-height: 1.4;
+}
+
+/* Card body */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  gap: var(--sp-2);
+}
+
+/* Player name */
+.card-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--clr-white);
+  line-height: 1.1;
+}
+
+/* Stats row */
+.card-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.card-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-stat__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--clr-white);
+  line-height: 1;
+}
+
+.card-stat__label {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Fantasy points progress bar */
+.card-fp-bar-track {
+  width: 100%;
+  height: 3px;
+  background: var(--clr-border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-top: var(--sp-2);
+}
+
+.card-fp-bar {
+  height: 100%;
+  width: var(--bar-width, 0%);
+  background: var(--team-primary);
+  border-radius: var(--radius-pill);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   13. PLAYER CARD — BACK FACE (.card-back)
+   ========================================================================== */
+.card-back {
+  background: var(--clr-bg-alt);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-6);
+  gap: var(--sp-4);
+  /* Team-colored top bar */
+  border-top: 4px solid var(--team-primary);
+}
+
+/* Giant team code watermark on back */
+.card-back__watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 8rem);
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--team-primary) 20%, transparent);
+  text-stroke: 1px color-mix(in srgb, var(--team-primary) 20%, transparent);
+  letter-spacing: 0.05em;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Back content */
+.card-back__title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--clr-white);
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.card-back__fp {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.card-back__fp-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  color: var(--team-primary);
+  line-height: 1;
+  display: block;
+}
+
+.card-back__fp-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--clr-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.card-back__price {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--clr-muted-light);
+}
+
+.card-back__price span {
+  color: var(--clr-gold);
+}
+
+/* --- Clip-path "unfold" animation classes --- */
+/* Applied by JS before the flip; use CSS animation to run */
+.card-wrapper.is-unfolding .card-inner {
+  animation: card-unfold var(--trans-flip) forwards;
+}
+
+@keyframes card-unfold {
+  0%   { clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%); opacity: 0; }
+  30%  { clip-path: polygon(0 20%, 100% 30%, 100% 70%, 0 80%); opacity: 0.6; }
+  100% { clip-path: polygon(0 0,   100% 0,   100% 100%, 0 100%); opacity: 1; }
+}
+
+/* ==========================================================================
+   14. TEAM SUMMARY STRIP (.team-summary)
+   ========================================================================== */
+.team-summary {
+  width: 100%;
+  background: var(--clr-bg-alt);
+  border-top: 2px solid color-mix(in srgb, var(--team-primary) 50%, transparent);
+  padding-block: var(--sp-6);
+  padding-inline: var(--sp-6);
+}
+
+.team-summary__inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+.summary-stat {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-4) var(--sp-6);
+  border-right: 1px solid var(--clr-border);
+}
+
+.summary-stat:last-child {
+  border-right: none;
+}
+
+.summary-stat__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--clr-white);
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+
+.summary-stat__value.highlight {
+  color: var(--team-primary);
+}
+
+.summary-stat__label {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--clr-muted);
+  text-align: center;
+}
+
+/* ==========================================================================
+   15. SCOREBOARD SECTION (#scoreboard)
+   ========================================================================== */
+#scoreboard {
+  padding-block: var(--sp-24);
+  padding-inline: var(--sp-6);
+}
+
+.scoreboard-inner {
+  max-width: 1400px;
+  margin-inline: auto;
+}
+
+.scoreboard-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  letter-spacing: 0.06em;
+  color: var(--clr-white);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-4);
+}
+
+.scoreboard-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--clr-muted);
+  margin-bottom: var(--sp-12);
+}
+
+/* Two-column leaderboard layout */
+.scoreboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-8);
+}
+
+.scoreboard-col__title {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: var(--sp-6);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.scoreboard-col__title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--clr-border);
+}
+
+/* Individual team row in the scoreboard */
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+/* Team badge circle */
+.team-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--team-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--clr-bg);
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.score-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.score-row__name {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--clr-off-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Animated score bar */
+.score-bar-track {
+  width: 100%;
+  height: 4px;
+  background: var(--clr-surface);
+  border-radius: var(--radius-pill);
+  margin-top: var(--sp-1);
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  width: 0; /* GSAP animates this to var(--bar-width) */
+  background: var(--team-primary);
+  border-radius: var(--radius-pill);
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score-row__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--clr-white);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Rank number */
+.score-row__rank {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--clr-muted);
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   16. FOOTER (#footer)
+   ========================================================================== */
+#footer {
+  position: relative;
+  background: var(--clr-bg-alt);
+  padding-block: var(--sp-20) var(--sp-12);
+  padding-inline: var(--sp-6);
+  overflow: hidden;
+  /* Diagonal top cut */
+  clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+  margin-top: var(--sp-16);
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-10);
+}
+
+/* "NEXT: MEGA AUCTION DAY" */
+.footer-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  letter-spacing: 0.05em;
+  color: var(--clr-white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.footer-headline span {
+  color: var(--clr-gold);
+}
+
+/* Countdown boxes */
+.countdown {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.countdown-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+}
+
+.countdown-box__value {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--clr-white);
+  line-height: 1;
+  /* Bordered box */
+  border: 1px solid var(--clr-border);
+  background: var(--clr-bg);
+  width: 100%;
+  text-align: center;
+  padding: var(--sp-3) var(--sp-2);
+  border-radius: var(--radius-sm);
+}
+
+.countdown-box__label {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  margin-top: var(--sp-2);
+}
+
+.countdown-sep {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  color: var(--clr-gold);
+  line-height: 1;
+  align-self: flex-start;
+  margin-top: var(--sp-3);
+}
+
+/* Footer credits */
+.footer-credits {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--clr-muted);
+  letter-spacing: 0.08em;
+}
+
+.footer-credits a {
+  color: var(--clr-gold-dim);
+  transition: color var(--trans-fast);
+}
+
+.footer-credits a:hover {
+  color: var(--clr-gold);
+}
+
+/* Footer gold line decoration */
+.footer-line {
+  width: 60px;
+  height: 1px;
+  background: var(--clr-gold-dim);
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   17. RESPONSIVE — MOBILE FIRST
+   ========================================================================== */
+
+/* --- Base (mobile < 480px) --- */
+.cards-grid {
+  grid-template-columns: 1fr;
+}
+
+.scoreboard-grid {
+  grid-template-columns: 1fr;
+}
+
+.team-header {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.team-code {
+  font-size: clamp(80px, 22vw, 150px);
+}
+
+.countdown {
+  gap: var(--sp-2);
+}
+
+.countdown-box {
+  min-width: 56px;
+}
+
+/* --- Tablet (≥ 600px) --- */
+@media (min-width: 600px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-inner {
+    height: 290px;
+  }
+
+  .summary-stat {
+    min-width: 120px;
+  }
+}
+
+/* --- Tablet wide (≥ 768px) --- */
+@media (min-width: 768px) {
+  .scoreboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .team-header {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .team-summary__inner {
+    flex-wrap: nowrap;
+  }
+
+  .countdown-box {
+    min-width: 80px;
+  }
+}
+
+/* --- Desktop (≥ 1024px) --- */
+@media (min-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card-inner {
+    height: 310px;
+  }
+
+  .hero-title {
+    max-width: 80%;
+  }
+}
+
+/* --- Wide desktop (≥ 1280px) --- */
+@media (min-width: 1280px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ==========================================================================
+   18. PREFERS-REDUCED-MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+
+  .live-dot {
+    animation: none;
+  }
+
+  .scroll-cue__chevron {
+    animation: none;
+  }
+
+  .marquee-track {
+    animation: none;
+    /* Show static text so it isn't invisible */
+    transform: none;
+  }
+
+  .card-inner {
+    transition: none;
+  }
+
+  .card-fp-bar {
+    transition: none;
+  }
+
+  .score-bar {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   19. MISC UTILITY / STATE CLASSES
+   ========================================================================== */
+
+/* Hidden before JS loads */
+.js-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Loading skeleton shimmer */
+.skeleton {
+  background: var(--clr-surface);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--clr-white) 5%, transparent) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.6s linear infinite;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%);  }
+}
+
+/* Section transition utility (JS adds on scroll) */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Divider line */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--clr-border);
+  margin-block: var(--sp-16);
+}

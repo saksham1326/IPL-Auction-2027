@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPL Fantasy Auction 2027 — Teams</title>
+  <meta name="description" content="Browse IPL Fantasy Auction teams and retained players by role.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="_bridge.css">
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursor-follower"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="index.html" aria-label="IPL Fantasy Auction home">IPL <span>2027</span></a>
+    <nav class="site-nav__links" aria-label="Main navigation">
+      <a class="site-nav__link" href="retentions.html">Retentions</a>
+      <a class="site-nav__link" href="teams.html" aria-current="page">Teams</a>
+      <a class="site-nav__link" href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <main id="teams" class="teams-page">
+    <div class="section-header">
+      <h1 class="section-title">TEAMS</h1>
+      <p class="section-subtitle">Choose a team to explore its retained players by role</p>
+    </div>
+    <div class="team-directory" id="team-directory" role="group" aria-label="Choose a team"></div>
+    <section
+      class="team-section team-detail"
+      id="team-detail"
+      aria-live="polite"
+      aria-labelledby="team-detail-title"
+      hidden
+    ></section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

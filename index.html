@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPL Fantasy Auction 2027 — Retention Phase</title>
+  <meta name="description" content="IPL Fantasy Auction 2027 — Private fantasy auction among friends. Retention phase live!">
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts: Bebas Neue + Inter + JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="_bridge.css">
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursor-follower"></div>
+
+  <!-- Noise overlay (CSS does this, but add the element) -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="index.html" aria-current="page" aria-label="IPL Fantasy Auction home">IPL <span>2027</span></a>
+    <nav class="site-nav__links" aria-label="Main navigation">
+      <a class="site-nav__link" href="retentions.html">Retentions</a>
+      <a class="site-nav__link" href="teams.html">Teams</a>
+      <a class="site-nav__link" href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero">
+      <div class="floodlight floodlight--left" aria-hidden="true"></div>
+      <div class="floodlight floodlight--right" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          RETENTION PHASE LIVE
+        </div>
+        <h1 class="hero-title">
+          <span class="hero-line hero-line--1">IPL FANTASY</span>
+          <span class="hero-line hero-line--2">AUCTION</span>
+          <span class="hero-line hero-line--3">2027</span>
+        </h1>
+        <p class="hero-subtitle">10 teams · 10 owners · Private fantasy league</p>
+      </div>
+      <div class="scroll-cue" aria-label="Scroll down">
+        <span class="scroll-cue-text">SCROLL</span>
+        <div class="scroll-cue-arrow"></div>
+      </div>
+      <div class="hero-lineup" id="hero-lineup" aria-label="Featured players from IPL teams"></div>
+    </section>
+
+    <!-- MARQUEE TICKER -->
+    <div class="marquee-strip" aria-hidden="true">
+      <div class="marquee-track">
+        <span>RETENTION PHASE LIVE</span>
+        <span class="marquee-dot">•</span>
+        <span>IPL FANTASY AUCTION 2027</span>
+        <span class="marquee-dot">•</span>
+        <span>10 TEAMS · 10 OWNERS</span>
+        <span class="marquee-dot">•</span>
+        <span>RETENTIONS ANNOUNCED</span>
+        <span class="marquee-dot">•</span>
+        <!-- Duplicate for seamless loop -->
+        <span>RETENTION PHASE LIVE</span>
+        <span class="marquee-dot">•</span>
+        <span>IPL FANTASY AUCTION 2027</span>
+        <span class="marquee-dot">•</span>
+        <span>10 TEAMS · 10 OWNERS</span>
+        <span class="marquee-dot">•</span>
+        <span>RETENTIONS ANNOUNCED</span>
+        <span class="marquee-dot">•</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-diagonal" aria-hidden="true"></div>
+    <div class="footer-content">
+      <div class="footer-next-label">NEXT UP</div>
+      <h2 class="footer-title">MEGA AUCTION<br>DAY</h2>
+      <div class="countdown" id="countdown">
+        <div class="cd-box"><span class="cd-num" id="cd-days">--</span><span class="cd-label">DAYS</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">HRS</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">MIN</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">SEC</span></div>
+      </div>
+      <p class="footer-auction-date">Auction Date: TBD — Edit in data.js</p>
+      <p class="footer-credits">IPL Fantasy Auction 2027 · Private League · Built with ❤️</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS — order matters -->
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
+  <!-- GSAP core + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Data first, then main -->
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
