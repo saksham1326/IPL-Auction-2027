@@ -4,35 +4,6 @@
    This keeps style.css clean while resolving all mismatches in one place.
    ========================================================================== */
 
-/* ── Cursor: JS/HTML uses .cursor + .cursor-follower ── */
-.cursor        { composes: cursor-dot;  }   /* won't work in plain CSS — use direct rules */
-
-/* Direct rules for cursor classes as created by main.js */
-.cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--clr-gold);
-  box-shadow: 0 0 6px 2px var(--clr-gold),
-              0 0 20px 4px color-mix(in srgb, var(--clr-gold) 40%, transparent);
-  pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  will-change: transform;
-}
-
-.cursor-follower {
-  position: fixed;
-  top: 0; left: 0;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--clr-gold) 60%, transparent);
-  pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  will-change: transform;
-}
 
 /* ── Hero: HTML uses .hero-badge + .pulse-dot ── */
 .hero-badge   { /* same as .live-badge */

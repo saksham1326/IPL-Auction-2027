@@ -109,7 +109,6 @@ body {
   font-size: var(--fs-base);
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: none; /* hide default cursor — custom cursor takes over */
   position: relative;
 }
 
@@ -129,7 +128,6 @@ ul, ol {
 }
 
 button {
-  cursor: none;
   border: none;
   background: none;
   font-family: inherit;
@@ -178,65 +176,6 @@ body::before {
   background-size: 300px 300px;
 }
 
-/* ==========================================================================
-   6. CUSTOM CURSOR
-   ========================================================================== */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--clr-gold);
-  box-shadow:
-    0 0 6px 2px var(--clr-gold),
-    0 0 20px 4px color-mix(in srgb, var(--clr-gold) 40%, transparent);
-  pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  transition:
-    width  var(--trans-fast),
-    height var(--trans-fast),
-    opacity var(--trans-fast);
-  will-change: transform;
-}
-
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--clr-gold) 60%, transparent);
-  pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  transition:
-    transform 0.12s ease,
-    width  0.2s ease,
-    height 0.2s ease,
-    opacity 0.2s ease;
-  will-change: transform;
-}
-
-/* Cursor states */
-body:has(a:hover) .cursor-dot,
-body:has(button:hover) .cursor-dot,
-body:has(.player-card:hover) .cursor-dot {
-  width: 14px;
-  height: 14px;
-  background: var(--clr-gold-light);
-}
-
-body:has(a:hover) .cursor-ring,
-body:has(button:hover) .cursor-ring,
-body:has(.player-card:hover) .cursor-ring {
-  width: 48px;
-  height: 48px;
-  border-color: var(--clr-gold);
-}
 
 /* ==========================================================================
    7. UTILITY CLASSES

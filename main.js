@@ -62,48 +62,7 @@ function initScrollTrigger() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   2. CUSTOM CURSOR
-   ───────────────────────────────────────────────────────────────────────────── */
-
-/**
- * Creates two cursor elements (.cursor dot + .cursor-follower ring),
- * appends them to the body, and tracks mousemove with GSAP quickTo for
- * buttery-smooth lag effect.
- */
-function initCustomCursor() {
-  if (reducedMotion) return;
-
-  const cursor = document.createElement("div");
-  cursor.className = "cursor";
-
-  const follower = document.createElement("div");
-  follower.className = "cursor-follower";
-
-  document.body.appendChild(cursor);
-  document.body.appendChild(follower);
-
-  // quickTo creates a reusable, optimised setter per property
-  const moveCursorX = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "none" });
-  const moveCursorY = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "none" });
-  const moveFollowerX = gsap.quickTo(follower, "x", { duration: 0.4, ease: "power3.out" });
-  const moveFollowerY = gsap.quickTo(follower, "y", { duration: 0.4, ease: "power3.out" });
-
-  window.addEventListener("mousemove", (e) => {
-    moveCursorX(e.clientX);
-    moveCursorY(e.clientY);
-    moveFollowerX(e.clientX);
-    moveFollowerY(e.clientY);
-  });
-
-  // Grow follower on interactive elements
-  document.querySelectorAll("a, button, .player-spotlight").forEach((el) => {
-    el.addEventListener("mouseenter", () => gsap.to(follower, { scale: 2.5, duration: 0.3 }));
-    el.addEventListener("mouseleave", () => gsap.to(follower, { scale: 1, duration: 0.3 }));
-  });
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   3. DOM BUILDER — TEAM SECTIONS
+   2. DOM BUILDER — TEAM SECTIONS
    ───────────────────────────────────────────────────────────────────────────── */
 
 /**
@@ -863,9 +822,6 @@ function init() {
   if (reducedMotion) {
     applyStaticFallback();
   } else {
-    // ── Cursor ──
-    initCustomCursor();
-
     // ── Hero entrance ──
     if (document.querySelector("#hero")) animateHero();
 
